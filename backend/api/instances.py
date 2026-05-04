@@ -4,7 +4,7 @@ from db.database import SessionLocal
 from schemas.instance import InstanceCreate,InstanceResponse
 from crud.instance import create_instance
 from schemas.instance import InstanceAction
-from services.aws_ec2 import start_instance
+from services.aws_ec2 import start_instance,stop_instance
 
 
 router = APIRouter()
@@ -26,3 +26,7 @@ def add_instance(data: InstanceCreate, db: session = Depends(get_db)):
 @router.post("/instances/start")
 def start_ec2(data: InstanceAction):
     return start_instance(data.instance_id)
+
+@router.post("/instance/stop")
+def stop_ec2(data:InstanceAction):
+    return stop_instance(data.instance_id)

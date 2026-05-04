@@ -54,16 +54,16 @@ def stop_instance(instance_id: str):
 #hia kuch
         # If already running
         if state == "stopped":
-            return {"message": "Instance already running"}
+            return {"message": "Instance already stopped"}
 
         # If already starting
         if state == "pending":
-            return {"message": "Instance is already starting"}
+            return {"message": "Instance is already stoping"}
 
         # Start instance
-        ec2_client.start_instances(InstanceIds=[instance_id])
+        ec2_client.stop_instances(InstanceIds=[instance_id])
 
-        return {"message": "Instance starting"}
+        return {"message": "Instance stoping"}
 
     except Exception as e:
         return {"error": str(e)}
