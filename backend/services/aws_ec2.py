@@ -67,3 +67,23 @@ def stop_instance(instance_id: str):
 
     except Exception as e:
         return {"error": str(e)}
+
+def reboot_instance(instance_id: str):
+    try:
+        response = ec2_client_describe_instances(InstanceIds=[instance_id])
+        reservations = response.get("Reservations")
+
+        if not reservations:
+            return {"error": "Instance not found"}
+
+        instance = reservations[0]["Instances"][0]
+        state = instance["State"]["Name"]
+
+        if state == "stoppped":
+            return{"message": "Instance is stop"}
+
+        ec2_client.reboot_instance(InstanceIds=[instance_id]) 
+        return{"message": "instance is reboot"}
+
+    except Exception as e:
+        return{"error":str(e)}

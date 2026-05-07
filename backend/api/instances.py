@@ -30,3 +30,7 @@ def start_ec2(data: InstanceAction):
 @router.post("/instance/stop")
 def stop_ec2(data:InstanceAction):
     return stop_instance(data.instance_id)
+
+@router.post("/instance/reboot")
+def reboot_ec2(data:InstanceAction):
+    return reboot_instance(data.instance_id)
