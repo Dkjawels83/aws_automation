@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import session
 from db.database import SessionLocal
-from schemas.instance import InstanceCreate,InstanceResponse
+from schemas.instance import InstanceCreate,InstanceResponse,InstanceAction,VerifyTerminate
 from crud.instance import create_instance
-from schemas.instance import InstanceAction
-from services.aws_ec2 import start_instance,stop_instance
+from services.aws_ec2 import start_instance,stop_instance,reboot_instance,request_temination,verify_terminate
 
 
 router = APIRouter()
@@ -34,3 +33,11 @@ def stop_ec2(data:InstanceAction):
 @router.post("/instance/reboot")
 def reboot_ec2(data:InstanceAction):
     return reboot_instance(data.instance_id)
+
+@router.post("/instance/terminate")
+def terminate_instance(data:InstanceAction):
+    return request_temination(data.instance_id)
+
+@router.post("/instance/verify_terminate")
+def terminate(data:VerifyTerminate):
+    return verify_terminate(data.instance_id,data.otp)

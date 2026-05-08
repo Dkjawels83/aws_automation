@@ -21,3 +21,7 @@ class InstanceResponse(BaseModel):
     instance_type: str
 
     model_config = ConfigDict(from_attributes=True)
+
+class VerifyTerminate(BaseModel):
+    instance_id:str
+    otp:str
